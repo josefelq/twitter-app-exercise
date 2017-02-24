@@ -32,4 +32,40 @@ var MongoClient = mongodb.MongoClient;
 
 });
 
+router.post('/', function(req, res, next) {
+var MongoClient = mongodb.MongoClient;
+
+	var url = 'mongodb://localhost:27017/test';
+	
+	MongoClient.connect(url, function(err, db){
+		if(err){}
+		else{
+			console.log("Connection established!");
+			
+			var collection =db.collection('tweets');
+			
+			collection.deleteMany({}, function(error, result){
+				if(error){
+					console.log(error);
+				}
+				else{
+					collection.insert(req.body, function(error, result){
+						if(error){
+							console.log(error);
+							res.status(500).json({error: 'Oops!'});
+
+						}
+						else{
+							console.log(result);
+							res.status(200).json(req.body);
+						}
+					});
+				}
+				
+			});
+		}
+	});
+
+});
+
 module.exports = router;

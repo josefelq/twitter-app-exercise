@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var app = express();
 
+var greeting="Hello!";
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -41,5 +43,5 @@ app.use(function(err, req, res, next) {
 });
 
 
-
+module.exports=greeting;
 module.exports = app;
