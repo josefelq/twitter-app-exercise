@@ -1,50 +1,34 @@
 var express = require('express');
 var router = express.Router();
 var mongodb =require('mongodb');
+var db=require('../public/scripts/server');
 
 
 router.get('/', function(req, res, next) {
-var MongoClient = mongodb.MongoClient;
+    
+    var collection = db.get().collection('tweets');
 
-	var url = 'mongodb://localhost:27017/test';
-	
-	MongoClient.connect(url, function(err, db){
-		if(err){}
-		else{
-			console.log("Connection established!");
-			
-			var collection =db.collection('tweets');
-			
-			collection.find({}).toArray(function(err, result){
-				if(err){
-					res.send(err);
-				}
-				else if(result.length){
-					res.send(result);
-				}
-				else{
-					res.send('No tweets found');	
-				}
-				db.close();
-			});
-		}
-	});
+    collection.find().toArray(function(err, result) {
+        if(err){
+            console.log('oh oh oreos!');
+        }
+        else if(result.length){
+            res.render('index', {
+                "tweets": result
+            });
+        }
+        else{
+            res.send('No tweets found :(');
+        }
+    });
 
 });
 
-router.post('/', function(req, res, next) {
-var MongoClient = mongodb.MongoClient;
+router.post('/tweets', function(req, res, next) {
+    
+    var collection = db.get().collection('tweets')
 
-	var url = 'mongodb://localhost:27017/test';
-	
-	MongoClient.connect(url, function(err, db){
-		if(err){}
-		else{
-			console.log("Connection established!");
-			
-			var collection =db.collection('tweets');
-			
-			collection.deleteMany({}, function(error, result){
+    collection.deleteMany({}, function(error, result){
 				if(error){
 					console.log(error);
 				}
@@ -53,7 +37,6 @@ var MongoClient = mongodb.MongoClient;
 						if(error){
 							console.log(error);
 							res.status(500).json({error: 'Oops!'});
-
 						}
 						else{
 							console.log(result);
@@ -61,11 +44,8 @@ var MongoClient = mongodb.MongoClient;
 						}
 					});
 				}
-				
-			});
-		}
-	});
-
+            });
 });
+
 
 module.exports = router;
