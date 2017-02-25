@@ -11,11 +11,12 @@ html
 
 	body
 		div.container-fluid
-			div.row.text-center
+			div.row
+				div.col-md-10
 					h1 Tweets
 			each tweet in tweets
 				div.row
-					div.col-md-offset-3.col-md-2
+					div.col-md-2
 						div= tweet.user.screen_name
 						img(src=tweet.user.profile_image_url)
 						div= tweet.created_at
