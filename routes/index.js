@@ -33,7 +33,7 @@ router.post('/tweets', function(req, res, next) {
 					console.log(error);
 				}
 				else{
-					collection.insert(JSON.parse(req.body), function(error, result){
+					collection.insert(req.body), function(error, result){
 						if(error){
 							console.log(error);
 							res.status(500).json({error: 'Oops!'});
