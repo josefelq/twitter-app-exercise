@@ -12,7 +12,7 @@ var db = require('../public/scripts/server');
 var server;
 var port;
 
-db.connect('mongodb://localhost:27017/test', function(err){
+db.connect('mongodb://webdevtweets:webdevtweets@ds161069.mlab.com:61069/heroku_8pztpscv', function(err){
     if(err){
         console.log('no clue');
     }
